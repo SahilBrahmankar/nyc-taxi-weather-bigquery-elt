@@ -10,9 +10,9 @@
 CREATE OR REPLACE VIEW `staging.stg_weather` AS
 SELECT
   date,
-  NULLIF(temp, 9999.9)  AS temp_f,
-  NULLIF(prcp, 99.99)   AS precip_in,
-  NULLIF(visib, 999.9)  AS visibility_mi,
-  NULLIF(wdsp, 999.9)   AS wind_speed_kn,
+  NULLIF(SAFE_CAST(temp  AS FLOAT64), 9999.9) AS temp_f,
+  NULLIF(SAFE_CAST(prcp  AS FLOAT64), 99.99)  AS precip_in,
+  NULLIF(SAFE_CAST(visib AS FLOAT64), 999.9)  AS visibility_mi,
+  NULLIF(SAFE_CAST(wdsp  AS FLOAT64), 999.9)  AS wind_speed_kn,
   rain_drizzle, snow_ice_pellets, fog
 FROM `raw.weather_2022`;
